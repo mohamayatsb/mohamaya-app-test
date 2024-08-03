@@ -1,1 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 
+        body {
+            font-family: "Hind Siliguri", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f4f8;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .register-form h2 {
+            color: #007bff;
+        }
+
+        .register-form p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register-form label {
+            display: block;
+            margin-top: 1em;
+            color: #333;
+        }
+
+        .register-form input {
+            width: 100%;
+            padding: 0.5em;
+            margin-top: 0.5em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            height: 30px;
+        }
+
+        .register-form button {
+            width: 100%;
+            padding: 0.7em;
+            margin-top: 1em;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 60px;
+        }
+
+        .register-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .logo {
+            width: 88px;
+            height: 58px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBQS-qGmDOqsRyWeb2ypva_XDwvvTsNGr8",
+            authDomain: "mohamaya-admin-app.firebaseapp.com",
+            projectId: "mohamaya-admin-app",
+            storageBucket: "mohamaya-admin-app.appspot.com",
+            messagingSenderId: "826582476022",
+            appId: "1:826582476022:web:e275f6dcb857c867d638d7"
+          };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('registerForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                var email = document.getElementById('email').value;
+                var password = document.getElementById('password').value;
+                var confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Registration successful, redirect to login page
+                        alert("Registration successful! Please log in.");
+                        window.location.href = "login.html";
+                    })
+                    .catch((error) => {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        alert(errorMessage);
+                    });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="register-form">
+            <img src='https://firebasestorage.googleapis.com/v0/b/mohamyats.appspot.com/o/Mohamaya%20Logo.png?alt=media&token=9894c470-a9f8-4376-85f1-fa958ddd2315' alt="logo" class="logo">
+            <h2>রেজিস্ট্রেশন করুন</h2>
+            <p>কমিটি কর্মকর্তা হিসেবে নিবন্ধন করুন।</p>
+            <form id="registerForm">
+                <label for="email">আপনার ই-মেইল আইডি লিখুন</label>
+                <input type="email" id="email" placeholder="name@example.com" required>
+                <label for="password">পাসওয়ার্ড লিখুন</label>
+                <input type="password" id="password" placeholder="*********" required>
+                <label for="confirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+                <input type="password" id="confirmPassword" placeholder="*********" required>
+                <button type="submit">রেজিস্ট্রেশন</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
