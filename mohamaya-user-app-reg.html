@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+        body {
+            font-family: "Hind Siliguri", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #FFF7F2;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .register-form h2 {
+            color: #E87132;
+        }
+
+        .register-form p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register-form label {
+            display: block;
+            margin-top: 1em;
+            color: #333;
+        }
+
+        .register-form input {
+            width: 100%;
+            padding: 0.5em;
+            margin-top: 0.5em;
+            border: 1px solid #E87132;
+            border-radius: 4px;
+            height: 30px;
+        }
+
+        .register-form button {
+            width: 100%;
+            padding: 0.7em;
+            margin-top: 1em;
+            background-color: #E87132;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 60px;
+        }
+
+        .register-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .logo {
+            width: 88px;
+            height: 58px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBADes_aelrE2zg7vfBfUahjuzNlHeVjJc",
+            authDomain: "mohamaya-user-app.firebaseapp.com",
+            projectId: "mohamaya-user-app",
+            storageBucket: "mohamaya-user-app.appspot.com",
+            messagingSenderId: "1080841164932",
+            appId: "1:1080841164932:web:458f0ca9f9158a94f7cad1"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('registerForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                var name = document.getElementById('name').value;
+                var email = document.getElementById('email').value;
+                var password = document.getElementById('password').value;
+
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        var user = userCredential.user;
+                        user.updateProfile({
+                            displayName: name
+                        }).then(() => {
+                            // Registration successful, redirect to homepage
+                            window.location.href = "index.html";
+                        }).catch((error) => {
+                            alert(error.message);
+                        });
+                    })
+                    .catch((error) => {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        alert(errorMessage);
+                    });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="register-form">
+            <img src='https://firebasestorage.googleapis.com/v0/b/mohamaya-user-app.appspot.com/o/Mohamaya-User-App%2Flogo%20(1).svg?alt=media&token=fc8cc600-39d1-4e50-a917-ebcc2ba881b8' alt="logo" class="logo">
+            <h2>নিবন্ধন করুন</h2>
+            <p>আমরা আনন্দিত যে আপনি আমাদের সাথে যোগ দিচ্ছেন। অনুগ্রহ করে আপনার তথ্যাদি প্রদান করুন।</p>
+            <form id="registerForm">
+                <label for="name">আপনার নাম লিখুন</label>
+                <input type="text" id="name" placeholder="আপনার নাম" required>
+                <label for="email">আপনার ই-মেইল আইডি লিখুন</label>
+                <input type="email" id="email" placeholder="name@example.com" required>
+                <label for="password">আপনার পাসওয়ার্ড লিখুন</label>
+                <input type="password" id="password" placeholder="*********" required>
+                <button type="submit">নিবন্ধন করুন</button>
+            </form>
+            <div style="align-content: center;">
+            <p>আমার একাউন্ট আছেন <a href="login.html" style="text-decoration: none; color: #E87132;"">লগইন করুন</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
